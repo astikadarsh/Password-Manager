@@ -1,12 +1,11 @@
 import Navbar from "./components/Navbar"
-
+import Manager from "./components/Manager"
 function App() {
 
   return (
     <>
     <Navbar/>
-    <div className="bg-black text-white">yayy</div>
-    </>
+    <Manager/>    </>
   )
 }
 
