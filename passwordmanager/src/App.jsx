@@ -1,11 +1,16 @@
 import Navbar from "./components/Navbar"
 import Manager from "./components/Manager"
+import Footer from "./components/Footer"
 function App() {
 
   return (
     <>
-    <Navbar/>
-    <Manager/>    </>
+      <Navbar />
+      <div className="min-h-[87vh]">
+        <Manager/>
+      </div>
+      <Footer/>
+    </>
   )
 }
 
