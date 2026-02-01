@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react'
 import { useRef } from 'react';
 import { useState } from 'react';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Manager = () => {
     const ref = useRef()
+    const passwordRef = useRef()
     const [form, setForm] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setPasswordArray] = useState([])
 
@@ -14,14 +18,32 @@ const Manager = () => {
 
     }, [])
 
-    const showPassword = () => {
-        alert("showing password");
-        if (ref.current.src.includes("icons/eyecross.png")) {
 
+
+    const copyText = (text) => {
+        toast('Copied to clipboard', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        navigator.clipboard.writeText(text)
+    }
+
+
+    const showPassword = () => {
+        passwordRef.current.type = "text"
+        if (ref.current.src.includes("icons/eyecross.png")) {
+            passwordRef.current.type = "password"
             ref.current.src = "icons/eye.png"
         }
         else {
             ref.current.src = "icons/eyecross.png"
+            passwordRef.current.type = "text"
         }
     }
 
@@ -40,6 +62,25 @@ const Manager = () => {
 
     return (
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+            />
+
+
+
+
+
+
             <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div>
 
             <div className="container mx-auto max-w-4xl px-40 py-16">
@@ -54,7 +95,7 @@ const Manager = () => {
                     <div className="flex w-full justify-between gap-8">
                         <input name='username' value={form.username} onChange={handleChange} placeholder='enter username' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
                         <div className="relative">
-                            <input name='password' value={form.password} onChange={handleChange} placeholder='enter password' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
+                            <input ref={passwordRef} name='password' value={form.password} onChange={handleChange} placeholder='enter password' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="password" />
                             <span className='absolute right-[-2px] top-[7px] cursor-pointer' onClick={showPassword}>
                                 <img ref={ref} className='p-1' width={20} src="icons/eye.png" alt="eye" />
                             </span>
@@ -81,11 +122,51 @@ const Manager = () => {
                             </tr>
                         </thead>
                         <tbody className='bg-green-100'>
-                            {passwordArray.map((item,index) => {
+                            {passwordArray.map((item, index) => {
                                 return <tr key={index}>
-                                    <td className='py-2 border border-white text-center w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
-                                    <td className='py-2 border border-white text-center w-32'>{item.username}</td>
-                                    <td className='py-2 border border-white text-center w-32'>{item.password}</td>
+
+                                    <td className=' py-2 border border-white text-center'>
+
+                                        <div className='flex items-center justify-center'>
+                                            <a href=
+
+                                                {item.site} target='_blank'>{item.site}</a>
+                                            <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.site) }}>
+
+                                                <lord-icon
+                                                    style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
+                                                    src="https://cdn.lordicon.com/jestaxpl.json"
+                                                    trigger="hover">
+                                                </lord-icon>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className='justify-center py-2 border border-white text-center'>
+                                        <div className="flex justify-center items-center">
+                                            <span> {item.username} </span>
+                                            <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.username) }}>
+
+                                                <lord-icon
+                                                    style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
+                                                    src="https://cdn.lordicon.com/jestaxpl.json"
+                                                    trigger="hover">
+                                                </lord-icon>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className='flex justify-center items-center py-2 border border-white text-center'>
+                                        <div className="flex items-center justify-center">
+                                            <span> {item.password} </span>
+                                            <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.password) }}>
+
+                                                <lord-icon
+                                                    style={{ "width": "25px", "height": "25px", "paddingTop": "3px", "paddingLeft": "3px" }}
+                                                    src="https://cdn.lordicon.com/jestaxpl.json"
+                                                    trigger="hover">
+                                                </lord-icon>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             })}
                         </tbody>
