@@ -13,7 +13,7 @@ const Navbar = () => {
 
       </div>
 
-      <button className='text-white bg-green-700 my-5 rounded-full flex justify-between items-center'>
+      <button className='text-white bg-green-700 my-5 rounded-full flex justify-between items-center ring ring-white'>
         <img className='invert w-10 p-1 rounded-full' src="icons/github.png" alt="githublogo" />
         <span className="font-bold px-2">GitHub</span>
         

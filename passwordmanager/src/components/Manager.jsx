@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { v4 as uuidv4 } from 'uuid';
 const Manager = () => {
     const ref = useRef()
     const passwordRef = useRef()
@@ -49,10 +49,26 @@ const Manager = () => {
 
 
     const savePassword = () => {
-        setPasswordArray([...passwordArray, form])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]))
+        setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
+        localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
         console.log([...passwordArray, form])
+        setForm({ site: "", username: "", password: "" })
     }
+    const deletePassword = (id) => {
+        let c=confirm("Are you sure you want to delte this password ?")
+        if(c){
+
+            setPasswordArray(passwordArray.filter(item => item.id !== id))
+            localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
+        }
+    }
+    const editPassword = (id) => {
+
+        setForm(passwordArray.filter(i => i.id === id)[0])
+        setPasswordArray(passwordArray.filter(item => item.id !== id))
+    }
+
+
 
 
     const handleChange = (e) => {
@@ -108,7 +124,7 @@ const Manager = () => {
                             trigger="hover"
                             colors="primary:#000000,secondary:#000000">
                         </lord-icon>
-                        Add Password</button>
+                        Save</button>
                 </div>
                 <div className="passwords">
                     <h2 className='font-bold text-2xll py-4'>Your Passwords</h2>
@@ -119,6 +135,7 @@ const Manager = () => {
                                 <th className=' py-2'>Site</th>
                                 <th className=' py-2'>Username</th>
                                 <th className=' py-2'>Password</th>
+                                <th className=' py-2'>Actions</th>
                             </tr>
                         </thead>
                         <tbody className='bg-green-100'>
@@ -154,7 +171,7 @@ const Manager = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className='flex justify-center items-center py-2 border border-white text-center'>
+                                    <td className='py-2 border border-white text-center'>
                                         <div className="flex items-center justify-center">
                                             <span> {item.password} </span>
                                             <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.password) }}>
@@ -166,6 +183,24 @@ const Manager = () => {
                                                 </lord-icon>
                                             </div>
                                         </div>
+                                    </td>
+                                    <td className='justify-center py-2 border border-white text-center'>
+                                        <span className='cursor-pointer mx-1' onClick={() => { editPassword(item.id) }}>
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/exymduqj.json"
+                                                trigger="hover"
+                                                colors="primary:#121331,secondary:#000000"
+                                            >
+                                            </lord-icon>
+                                        </span>
+                                        <span className='cursor-pointer mx-1' onClick={() => { deletePassword(item.id) }}>
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/jzinekkv.json"
+                                                trigger="hover"
+                                                colors="primary:#121331,secondary:#000000"
+                                            >
+                                            </lord-icon>
+                                        </span>
                                     </td>
                                 </tr>
                             })}
