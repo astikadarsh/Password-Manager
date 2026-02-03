@@ -49,17 +49,44 @@ const Manager = () => {
 
 
     const savePassword = () => {
-        setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
-        console.log([...passwordArray, form])
-        setForm({ site: "", username: "", password: "" })
+        if(form.site.length >3 && form.site.username > 3 && form.site.password > 3){
+
+            setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
+            localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
+            console.log([...passwordArray, form])
+            setForm({ site: "", username: "", password: "" })
+        toast('Password Saved !', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+
+    else{
+        toast('Error: Length too short !')
+    }
     }
     const deletePassword = (id) => {
-        let c=confirm("Are you sure you want to delte this password ?")
-        if(c){
+        let c = confirm("Are you sure you want to delte this password ?")
+        if (c) {
 
             setPasswordArray(passwordArray.filter(item => item.id !== id))
             localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)))
+            toast('Password Deleted !', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
     }
     const editPassword = (id) => {
@@ -99,7 +126,7 @@ const Manager = () => {
 
             <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div>
 
-            <div className="container mx-auto max-w-4xl px-40 py-16">
+            <div className="p-2 md:p-0  md:container md:mx-auto max-w-4xl md:px-40 md:py-16">
                 <h1 className='text-4xl font-bold text-center'>
                     <span className='text-green-500'> &lt;</span>
                     Pass
@@ -107,11 +134,11 @@ const Manager = () => {
                 </h1>
                 <p className='text-green-900 text-lg text-center'>A Secure Password Mangement Tool</p>
                 <div className="text-black flex flex-col p-4 gap-8 items-center">
-                    <input name='site' value={form.site} onChange={handleChange} placeholder='enter website url' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
-                    <div className="flex w-full justify-between gap-8">
-                        <input name='username' value={form.username} onChange={handleChange} placeholder='enter username' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
+                    <input name='site' value={form.site} onChange={handleChange} placeholder='enter website url' id='site' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
+                    <div className="flex  flex-col md:flex-row w-full justify-between gap-8">
+                        <input name='username' value={form.username} onChange={handleChange} id='username' placeholder='enter username' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
                         <div className="relative">
-                            <input ref={passwordRef} name='password' value={form.password} onChange={handleChange} placeholder='enter password' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="password" />
+                            <input ref={passwordRef} name='password' value={form.password} onChange={handleChange} placeholder='enter password' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="password" id='password'/>
                             <span className='absolute right-[-2px] top-[7px] cursor-pointer' onClick={showPassword}>
                                 <img ref={ref} className='p-1' width={20} src="icons/eye.png" alt="eye" />
                             </span>
