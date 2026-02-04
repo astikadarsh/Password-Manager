@@ -49,27 +49,27 @@ const Manager = () => {
 
 
     const savePassword = () => {
-        if(form.site.length >3 && form.site.username > 3 && form.site.password > 3){
+        if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
 
             setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
             localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
             console.log([...passwordArray, form])
             setForm({ site: "", username: "", password: "" })
-        toast('Password Saved !', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }
+            toast('Password Saved !', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
 
-    else{
-        toast('Error: Length too short !')
-    }
+        else {
+            toast('Error: Length too short !')
+        }
     }
     const deletePassword = (id) => {
         let c = confirm("Are you sure you want to delte this password ?")
@@ -138,7 +138,7 @@ const Manager = () => {
                     <div className="flex  flex-col md:flex-row w-full justify-between gap-8">
                         <input name='username' value={form.username} onChange={handleChange} id='username' placeholder='enter username' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="text" />
                         <div className="relative">
-                            <input ref={passwordRef} name='password' value={form.password} onChange={handleChange} placeholder='enter password' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="password" id='password'/>
+                            <input ref={passwordRef} name='password' value={form.password} onChange={handleChange} placeholder='enter password' className='bg-white rounded-full border border-green-500 w-full p-4 py-1' type="password" id='password' />
                             <span className='absolute right-[-2px] top-[7px] cursor-pointer' onClick={showPassword}>
                                 <img ref={ref} className='p-1' width={20} src="icons/eye.png" alt="eye" />
                             </span>
@@ -156,7 +156,7 @@ const Manager = () => {
                 <div className="passwords">
                     <h2 className='font-bold text-2xll py-4'>Your Passwords</h2>
                     {passwordArray.length === 0 && <div>No Passwords To Show</div>}
-                    {passwordArray.length != 0 && <table className="table-auto w-full rounded-md overflow-hidden">
+                    {passwordArray.length != 0 && <table className="table-auto w-full rounded-md overflow-hidden mb-10">
                         <thead className='bg-green-800 text-white'>
                             <tr>
                                 <th className=' py-2'>Site</th>
